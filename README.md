@@ -1,6 +1,6 @@
 # Running Spark Mail Project on Docker
 
-This repository is conceptually based on SequenceIQ's [Docker Spark](https://github.com/sequenceiq/docker-spark)
+This repository is based on SequenceIQ's [Docker Spark](https://github.com/sequenceiq/docker-spark)
 with a customized Spark distro and some files we need to run the [Spark Mail Tutorial](https://github.com/medale/spark-mail/blob/master/presentation/SparkMailPresentation.md).
 The Dockerfile starts with the sequenceiq/hadoop-docker:2.6.0 [see Hadoop Docker](https://github.com/sequenceiq/hadoop-docker) image.
 
@@ -35,6 +35,7 @@ sudo docker run -v /opt/rpm1:/opt/rpm1 -P -i -t -h sandbox medale/spark-mail-doc
 
 # Image layout
 Running the image with the bash command brings you to a shell prompt as root:
+
 ```
 pwd
 > /root
