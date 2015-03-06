@@ -1,0 +1,7 @@
+*~
+.project
+build.sh
+spark-1.2.1.tar.gz
+mailrecord-utils-0.9.0-SNAPSHOT-shaded.jar
+enron.avro
+enron-small.avro

@@ -1,0 +1,9 @@
+# In container run
+# hostname
+# ifconfig
+# To determine the hostname (sandbox if you run with -h sandbox) and ip adx 
+# Then export HOSTALIASES=host-alias
+# firefox & (start firefox with that environment variable set
+# http://172.17.0.16:8088 brings you to Hadoop Resource Manager home
+# All links should now work (sandbox gets mapped to ip below)
+sandbox 172.17.0.18 
