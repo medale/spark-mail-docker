@@ -4,11 +4,11 @@ This repository is based on SequenceIQ's [Docker Spark](https://github.com/seque
 with a customized Spark distro and some files we need to run the [Spark Mail Tutorial](https://github.com/medale/spark-mail/blob/master/presentation/SparkMailPresentation.md).
 The Dockerfile starts with the sequenceiq/hadoop-docker:2.6.0 [see Hadoop Docker](https://github.com/sequenceiq/hadoop-docker) image.
 
-# Obtaining medale/spark-mail from DockerHub
+# Obtaining medale/spark-mail-docker from DockerHub
 
     sudo docker pull medale/spark-mail-docker:v1.2.1
 
-# Run spark-mail docker image
+# Run spark-mail-docker image
 
 ## Simple run (no shared drive)
 
@@ -153,7 +153,7 @@ obtain the emails and convert them to .avro format. Also see [Main.scala](https:
 * start-spark.sh - script to start up Spark shell in yarn-client mode with Kryo
 * yarn-remote-client dir - contains hadoop conf files for Spark (Note: must call host "sandbox")
 
-# Building medale/spark-mail locally
+# Building medale/spark-mail-docker locally
 
 * must create spark-1.2.1.tar.gz (see above)
 * must create enron-small.avro (see above)
