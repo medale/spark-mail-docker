@@ -1,8 +1,11 @@
+# Short Description
+Image for spark-mail tutorial at https://github.com/medale/spark-mail/blob/master/presentation
+
+# Full Description
 # Running Spark Mail Project on Docker
 
 This repository is based on SequenceIQ's [Docker Spark](https://github.com/sequenceiq/docker-spark)
 with a customized Spark distro and some files we need to run the [Spark Mail Tutorial](https://github.com/medale/spark-mail/blob/master/presentation/SparkMailPresentation.md).
-This includes a subset of the Enron email dataset in Avro format in hdfs.
 The Dockerfile starts with the sequenceiq/hadoop-docker:2.6.0 [see Hadoop Docker](https://github.com/sequenceiq/hadoop-docker) image.
 
 # Obtaining medale/spark-mail-docker from DockerHub
@@ -65,7 +68,7 @@ env
 
 # Analytic 1
 
-```scala
+```
 scala>:paste
 import org.apache.spark.SparkContext._
 import org.apache.spark.rdd._
@@ -108,6 +111,7 @@ Now we can go to the Resource Manager from local browser on host:
 
 From there, click on ApplicationMaster (under TrackingUI column). The link goes
 to something like:
+
 * http://sandbox:8088/proxy/application_1425314491113_0001/ (which does not exist)
 * Replace sandbox with the previously obtained IP address, for example:
 * http://172.17.0.71:8088/proxy/application_1425314491113_0001/
@@ -148,22 +152,6 @@ on how to build this distro (tar assumes directory spark-1.2.1-hadoop2.4 inside 
 * enron-small.avro - an arbitrary subset (however big you want to process) of Avro version of Enron emails.
 See [Spark Mail README.md](https://github.com/medale/spark-mail/blob/master/README.md) for overview of how to
 obtain the emails and convert them to .avro format. Also see [Main.scala](https://github.com/medale/spark-mail/blob/master/mailrecord-utils/src/main/scala/com/uebercomputing/mailparser/enronfiles/Main.scala).
-We ran com.uebercomputing.mailparser.enronfiles.Main with the following args:
-
-```
---mailDir /opt/rpm1/enron/enron_mail_20110402/maildir
---avroOutput /opt/rpm1/enron/enron-small2.avro
-
-NOTE: the users args all one line:
-
---users allen-p,arnold-j,arora-h,beck-s,benson-r,blair-l,brawner-s,
-buy-r,campbell-l,carson-m,cash-m,dasovich-j,davis-d,dean-c,delainey-d,
-derrick-j,dickson-s,gay-r,geaccone-t,germany-c,griffith-j,grigsby-m,
-guzman-m,haedicke-m,hain-m,harris-s,hayslett-r,heard-m,hendrickson-s,
-hernandez-j,hodge-j,holst-k,horton-s,hyatt-k,kaminski-v,kean-s,keavey-p,
-keiser-k,king-j,lay-k
---overwrite true
-```
 
 ## Additional files
 * log4j.properties - suppresses DEBUG and INFO messages for less clutter
@@ -213,11 +201,6 @@ sudo docker ps -l
 
 # Commit changes to an image
 sudo docker commit <container_id> medale/new_image
-
-# Save an image for later import
-docker save -o image.tar image
-... copy to destination machine
-docker load -i image.tar
 ```
 
 For background see [dockerimages](https://docs.docker.com/userguide/dockerimages/)

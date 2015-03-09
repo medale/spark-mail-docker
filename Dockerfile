@@ -8,7 +8,7 @@ ENV SPARK_HOME /usr/local/spark
 
 # Upload sample files and jar file
 ADD enron-small.avro /root/
-ADD mailrecord-utils-0.9.0-SNAPSHOT-shaded.jar /root/
+ADD mailrecord-utils-1.0.0-shaded.jar /root/
 ADD log4j.properties /root/
 ADD start-spark.sh /root/
 RUN chmod +x /root/start-spark.sh
@@ -19,6 +19,9 @@ RUN $BOOTSTRAP && $HADOOP_PREFIX/bin/hadoop dfsadmin -safemode leave && $HADOOP_
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 ENV HADOOP_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 ENV PATH $PATH:$SPARK_HOME/bin:$HADOOP_PREFIX/bin
+
+# Now that enron.avro is in HDFS we don't need it in local
+RUN rm /root/enron-small.avro
 
 # update boot script
 COPY bootstrap.sh /etc/bootstrap.sh
