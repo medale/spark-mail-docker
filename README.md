@@ -241,6 +241,7 @@ MAINTAINER medale
 ADD spark-1.3.1-bin-hadoop2.6.tgz /usr/local/
 RUN cd /usr/local && ln -s spark-1.3.1-bin-hadoop2.6 spark
 ENV SPARK_HOME /usr/local/spark
+ADD log4j.properties /usr/local/spark/conf/
 
 # Upload sample files and jar file
 ADD enron-small.avro /root/
