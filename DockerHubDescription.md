@@ -10,7 +10,7 @@ The Dockerfile starts with the sequenceiq/hadoop-docker:2.6.0 [see Hadoop Docker
 
 # Obtaining medale/spark-mail-docker from DockerHub
 
-    sudo docker pull medale/spark-mail-docker:v1.2.1
+    sudo docker pull medale/spark-mail-docker:v1.3.1
 
 # Run spark-mail-docker image
 
@@ -20,17 +20,17 @@ The Dockerfile starts with the sequenceiq/hadoop-docker:2.6.0 [see Hadoop Docker
 * -i run in interactive mode
 * -t with tty terminal
 * -h sets hostname of the image to "sandbox"
-* medale/spark-mail-docker:v1.2.1 image and version of image
+* medale/spark-mail-docker:v1.3.1 image and version of image
 * /etc/bootstrap.sh - complete bootstrap
 * bash - then run bash (login as root)
 
-    sudo docker run -P -i -t -h sandbox medale/spark-mail-docker:v1.2.1 /etc/bootstrap.sh bash
+    sudo docker run -P -i -t -h sandbox medale/spark-mail-docker:v1.3.1 /etc/bootstrap.sh bash
 
 ## Mounting a share drive to the image
 * -v Mount host /opt/rpm1 on image /opt/rpm1 (share files between image and host)
 
 ```
-sudo docker run -v /opt/rpm1:/opt/rpm1 -P -i -t -h sandbox medale/spark-mail-docker:v1.2.1 /etc/bootstrap.sh bash
+sudo docker run -v /opt/rpm1:/opt/rpm1 -P -i -t -h sandbox medale/spark-mail-docker:v1.3.1 /etc/bootstrap.sh bash
 > Starting sshd:                                             [  OK  ]
 > Starting namenodes on [sandbox]
 > sandbox: starting namenode, logging to /usr/local/hadoop/logs/hadoop-root-namenode-sandbox.out
@@ -44,7 +44,7 @@ Running the image with the bash command brings you to a shell prompt as root:
 pwd
 > /root
 ls
-> log4j.properties  mailrecord-utils-1.0.0-shaded.jar	start-spark.sh
+> mailrecord-utils-1.0.0-shaded.jar	start-spark.sh
 hdfs dfs -ls
 > Found 2 items
 > -rw-r--r--   1 root supergroup  324088129 2015-03-01 22:11 enron.avro
@@ -56,7 +56,7 @@ env
 > ...
 ```
 
-# Running Spark with minimum logging and kryo serialization
+# Running Spark with kryo serialization
 
 ```
 (if you are not in /root, cd /root)
@@ -70,7 +70,6 @@ env
 
 ```
 scala>:paste
-import org.apache.spark.SparkContext._
 import org.apache.spark.rdd._
 import com.uebercomputing.mailparser.enronfiles.AvroMessageProcessor
 import com.uebercomputing.mailrecord._
@@ -92,7 +91,7 @@ this IP address we can either do this from the host machine:
 ```
 sudo docker ps
 > CONTAINER ID        IMAGE                      COMMAND                CREATED             STATUS              PORTS
-> bb5cf832bd76        medale/spark-mail-docker:v1.2.1   "/etc/bootstrap.sh /   13 minutes ago      Up 13 minutes       0.0.0
+> bb5cf832bd76        medale/spark-mail-docker:v1.3.1   "/etc/bootstrap.sh /   13 minutes ago      Up 13 minutes       0.0.0
 sudo docker inspect --format="{{.NetworkSettings.IPAddress}}" bb5cf832bd76
 > 172.17.0.71
 ```
@@ -144,9 +143,10 @@ on that page should work.
 
 In addition to Hadoop we have:
 
-## Customized spark-1.2.1
-We then add a customized spark-1.2.1.tar.gz. See [these instructions](https://github.com/medale/spark-mail/blob/master/presentation/CreatingAvroMapred2Spark.md)
-on how to build this distro (tar assumes directory spark-1.2.1-hadoop2.4 inside of the tar.gz file).
+## Spark 1.3.1
+http://spark.apache.org/downloads.html - Pre-built for Hadoop 2.6 and later.
+Downloaded and added to spark-mail-docker as spark-1.3.1-bin-hadoop2.6.tgz.
+Add spark-1.3.1-bin-hadoop2.6.tgz to .gitignore.
 
 ## Other files not in this github repo
 * enron-small.avro - an arbitrary subset (however big you want to process) of Avro version of Enron emails.
@@ -154,12 +154,12 @@ See [Spark Mail README.md](https://github.com/medale/spark-mail/blob/master/READ
 obtain the emails and convert them to .avro format. Also see [Main.scala](https://github.com/medale/spark-mail/blob/master/mailrecord-utils/src/main/scala/com/uebercomputing/mailparser/enronfiles/Main.scala).
 
 ## Additional files
-* log4j.properties - suppresses DEBUG and INFO messages for less clutter
+* log4j.properties - put into SPARK_HOME/conf to suppresses DEBUG and INFO messages for less clutter
 * start-spark.sh - script to start up Spark shell in yarn-client mode with Kryo
 
 # Building medale/spark-mail-docker locally
 
-* must create spark-1.2.1.tar.gz (see above)
+* must copy in spark-1.3.1-bin-hadoop2.6.tgz (see above)
 * must create enron-small.avro (see above)
 
 Add both files to docker-spark directory (same directory as Dockerfile).
@@ -167,7 +167,7 @@ Add both files to docker-spark directory (same directory as Dockerfile).
 ```
 sudo docker build -t medale/spark-mail-docker .
 sudo docker images  #lists container id (assumed here to be e57ff7c77397)
-sudo docker tag e57ff7c77397 medale/spark-mail-docker:v1.2.1
+sudo docker tag e57ff7c77397 medale/spark-mail-docker:v1.3.1
 ```
 # (Optional) Publish to DockerHub
 After creating account on [DockerHub](https://hub.docker.com/account/signup/)
@@ -175,9 +175,9 @@ you can publish your image to a public repo so others can find and pull it
 without having to build the image locally:
 
 ```
-sudo docker push medale/spark-mail-docker:v1.2.1
+sudo docker push medale/spark-mail-docker:v1.3.1
 sudo docker search medale
-sudo docker pull medale/spark-mail-docker:v1.2.1
+sudo docker pull medale/spark-mail-docker:v1.3.1
 ```
 
 # Other useful Docker commands
@@ -186,7 +186,7 @@ sudo docker pull medale/spark-mail-docker:v1.2.1
 # Show available images
 sudo docker images
 > REPOSITORY                 TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-> medale/spark-mail-docker          v1.2.1              5e4665af6d6e        13 hours ago        2.84 GB
+> medale/spark-mail-docker          v1.3.1              5e4665af6d6e        13 hours ago        2.84 GB
 > ...
 
 # Delete a local image
@@ -215,9 +215,9 @@ If src is a local tar archive in a recognized compression format (identity, gzip
 FROM sequenceiq/hadoop-docker:2.6.0
 MAINTAINER medale
 
-# automatically untars spark-1.2.1 at /usr/local
-ADD spark-1.2.1.tar.gz /usr/local/
-RUN cd /usr/local && ln -s spark-1.2.1-hadoop2.4 spark
+# automatically untars spark-1.3.1 at /usr/local
+ADD spark-1.3.1-bin-hadoop2.6.tgz /usr/local/
+RUN cd /usr/local && ln -s spark-1.3.1-bin-hadoop2.6 spark
 ENV SPARK_HOME /usr/local/spark
 
 # Upload sample files and jar file

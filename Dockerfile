@@ -1,9 +1,9 @@
 FROM sequenceiq/hadoop-docker:2.6.0
 MAINTAINER medale
 
-# automatically untars spark-1.2.1 at /usr/local
-ADD spark-1.2.1.tar.gz /usr/local/
-RUN cd /usr/local && ln -s spark-1.2.1-hadoop2.4 spark
+# automatically untars spark-1.3.1 at /usr/local
+ADD spark-1.3.1-bin-hadoop2.6.tgz /usr/local/
+RUN cd /usr/local && ln -s spark-1.3.1-bin-hadoop2.6 spark
 ENV SPARK_HOME /usr/local/spark
 
 # Upload sample files and jar file
